@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Assessment Recommender</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        textarea { width: 100%; height: 100px; padding: 10px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        .result-card { border: 1px solid #ddd; padding: 15px; margin-top: 10px; border-left: 5px solid #007bff; }
+        .score { color: #28a745; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Search for Assessments</h2>
+    <form method="POST">
+        <textarea name="user_query" placeholder="Enter job description or requirements...">{{ query }}</textarea>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if results %}
+        <h3>Top Recommendations:</h3>
+        {% for item in results %}
+            <div class="result-card">
+                <p><strong>URL:</strong> <a href="{{ item.Assessment_url }}" target="_blank">{{ item.Assessment_url }}</a></p>
+                <p>Match Score: <span class="score">{{ (item.similarity * 100) | round(2) }}%</span></p>
+            </div>
+        {% endfor %}
+    {% elif query %}
+        <p>No matches found.</p>
+    {% endif %}
+</body>
+</html>
